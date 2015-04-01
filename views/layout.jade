@@ -1,0 +1,17 @@
+doctype
+html
+  head
+    title #{title} - My Site
+    link(rel='stylesheet', href='/js/vendor/webix/codebase/webix.css')
+    link(rel='stylesheet', href='/css/style.css')
+    script(src='/js/vendor/webix/codebase/webix.js')
+  body
+    header
+    .container
+      .main-content
+        block content
+      .sidebar
+        block sidebar
+    footer
+      p Running on node with Express, Jade and Stylus
+    block js

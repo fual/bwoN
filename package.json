@@ -1,0 +1,9 @@
+{
+  "name": "node-ejs",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "express": "^4.6.1",
+    "firebase": "^2.2.3"
+  }
+}

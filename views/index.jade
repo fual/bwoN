@@ -1,0 +1,60 @@
+extend layout
+block content
+    #testA
+    #post
+    #postList
+block sidebar
+    .widget
+block js
+    script(type='text/javascript').
+        var authForm = [
+            {view: "text", label: 'Email', name: "userLogin"},
+            {view: "text", label: 'Password', name: "userPas"},
+            { margin:5, cols:[
+                {
+                    view: "button", value: "Submit", click: function () {
+                        if($$('form1').validate()) {
+                            webix.message("All is correct");
+                            webix.ajax().post("/auth", {filter: "123"}, function (text, xml, xhr) {
+                                console.log(text);
+                        });
+
+                        } else {
+                            var Inter = setInterval(function(){
+                                $$('form1').clearValidation();
+                            },2000);
+                        }
+
+                }},
+                { view:"button", value:"Cancel" }
+            ]}
+
+        ];
+
+
+        webix.ui({
+            container: "testA",
+            view:"form",
+            scroll:false,
+            width:300,
+            id:"form1",
+            elements: authForm,
+            rules:{
+                "userLogin":webix.rules.isNotEmpty,
+                "userPas":webix.rules.isNumber
+            }
+        });
+
+
+        /*
+        webix.ui({
+            type: "list",
+            container: "postList",
+            id : "postList",
+            view: "list",
+            template: "#title# - #year#",
+            select: true, //выбранный элемент будет подсвечен
+            height: 400,
+            url : '/json/posts.json'
+        });
+        */
