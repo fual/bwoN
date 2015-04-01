@@ -14,11 +14,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 var Firebase = require("firebase");
 var fb = new Firebase("https://pppsss.firebaseio.com");
-
-
-
-
-
 function compile(str, path) {
     return stylus(str)
         .set('filename', path)
