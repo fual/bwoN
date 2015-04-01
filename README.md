@@ -5,4 +5,4 @@
 
 ```bash
 $ npm install -g nodemon
-$ npm nodemon app.js localhost 777
+$ nodemon ./app.js localhost 8080

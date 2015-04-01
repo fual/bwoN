@@ -31,13 +31,40 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-    fb.child('user').set([{"name":"alex2","password":"200"}]);
+    /*fb.set({
+        'user' : {
+            'mail' : {
+                'alex@mangust' : '2001',
+                'alex2@mangust' : '2002',
+                'alex3@mangust' : '2003'
+            },
+            'password':{
+                '2001' : '123',
+                '2002' : '123',
+                '2003' : '123'
+            }
+        }
+    });*/
+    //fb.child('user').push({"name":"alex3","password":"300"});
+    //fb.child('user').push({"name":"alex3","password":"500"});
+
+
     res.render('index',
         { title : 'Home'}
     )
 });
 
 app.post('/auth', function (req, res) {
+    var email = req.body.mail;
+    var state;
+    new Firebase('https://pppsss.firebaseio.com/user/mail/').child('alex2@mangsust').once('value', function(snap) {
+        if(snap.val()==null){
+            //Добавить новый пароль
+            state = 'newCreate'
+        } else {
+            state = 'сверить логины'
+        }
+    });
     res.end();
     console.log(req.body)
 
