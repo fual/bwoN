@@ -35,9 +35,6 @@ app.use(stylus.middleware(
 
 app.use(express.static(__dirname + '/public'));
 
-
-
-
 app.get('/', function (req, res) {
     fb.child('user').set([{"name":"alex2","password":"200"}]);
     res.render('index',
