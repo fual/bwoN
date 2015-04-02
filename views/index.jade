@@ -14,13 +14,12 @@ block js
                 {
                     view: "button", value: "Submit", click: function () {
                         if($$('form1').validate()) {
-                            webix.message("All is correct");
-                            webix.ajax().post("/auth", {filter: "123"}, function (text, xml, xhr) {
-                                console.log(text);
+                            webix.ajax().post("/auth", $$('form1').getValues(), function (text, xml, xhr) {
+                                webix.message(text);
                         });
 
                         } else {
-                            var Inter = setInterval(function(){
+                            var Inter = setTimeout(function(){
                                 $$('form1').clearValidation();
                             },2000);
                         }
@@ -41,7 +40,7 @@ block js
             elements: authForm,
             rules:{
                 "userLogin":webix.rules.isNotEmpty,
-                "userPas":webix.rules.isNumber
+                "userPas":webix.rules.isNotEmpty
             }
         });
 
