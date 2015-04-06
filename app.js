@@ -8,7 +8,33 @@ var express = require('express'),
     md5 = require('MD5'),
     bodyParser = require('body-parser');
 
-//Firebase
+/***********************
+ *
+ * Mongo
+ *
+ **********************/
+var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/test');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+
+
+var linkSchema = mongoose.Schema({
+    title: String,
+    href: String,
+    tags: String,
+    author: String,
+    date: String
+});
+
+var Link = mongoose.model('Link', linkSchema);
+
+/***********************
+ *
+ * FireBase
+ *
+ **********************/
 var Firebase = require("firebase");
 var fb = new Firebase("https://pppsss.firebaseio.com");
 /***********************
@@ -61,6 +87,25 @@ app.get('/', function (req, res) {
     )
 });
 
+app.get('/postList', function(req, res) {
+    res.render('postList',
+        {title: 'postList'}
+    )
+});
+
+app.get('/links.json', function(req, res) {
+    Link.find(function (err, docs) {
+        res.json(docs);
+    });
+});
+
+
+app.get('/save', function(req, res) {
+    var newItem = new Link( {"id": 2, "title": "Cсылка 2", "preview": "http://eax.me/",  "tags" : ["#Блог","#что-тоеще"], "author" : "alex", "date" : ""});
+    newItem.save();
+    res.send(12);
+});
+
 /***********************
  *
  * Auth
@@ -74,10 +119,11 @@ app.post('/auth', function (req, res) {
     if (login && password) {
         fb.child('users').orderByChild('login').equalTo(login).on("value", function (snapshot) {
             response = snapshot.val();
+            console.log(200);
         });
 
         if (response == null) {
-            fb.child('users').push({"login": login, "password": password});
+            //fb.child('users').push({"login": login, "password": password});
             state = 'newCreate';
         } else {
             console.log(response);
@@ -90,7 +136,7 @@ app.post('/auth', function (req, res) {
         }
     }
 
-    res.send(state);
+    res.send(response);
 });
 
 app.listen(5000, function () {
