@@ -8,9 +8,24 @@ var express = require('express'),
     md5 = require('MD5'),
     bodyParser = require('body-parser');
 
-//Firebase
-var Firebase = require("firebase");
-var fb = new Firebase("https://pppsss.firebaseio.com");
+/***********************
+ *
+ * mongodb
+ *
+ **********************/
+var mongoose = require('mongoose');
+
+var db = mongoose.connection;
+
+
+
+
+
+mongoose.connect('mongodb://localhost/test');
+
+
+
+
 /***********************
  *
  * Express Settings
@@ -71,11 +86,26 @@ app.post('/auth', function (req, res) {
         password = md5(req.body.userPas),
         state = '',
         response = null;
-    if (login && password) {
-        fb.child('users').orderByChild('login').equalTo(login).on("value", function (snapshot) {
-            response = snapshot.val();
-        });
 
+
+
+    if (login && password) {
+
+
+            var usersSchema = new mongoose.Schema({
+                name: { type: String }
+                , password: String
+            });
+            var Users = mongoose.model('Users', usersSchema);
+
+
+            Users.findOne({name : login},function(err, user){
+                console.log(user.name);
+            });
+
+
+
+        /*
         if (response == null) {
             fb.child('users').push({"login": login, "password": password});
             state = 'newCreate';
@@ -87,7 +117,8 @@ app.post('/auth', function (req, res) {
             } else {
                 state = 'that login is using!';
             }
-        }
+        }*/
+        state = 'her';
     }
 
     res.send(state);
