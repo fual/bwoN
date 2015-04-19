@@ -1,0 +1,82 @@
+extend layout
+block content
+    #links
+    #posts
+    #blogs
+
+block js
+    script(type='text/javascript').
+        //Articles
+        webix.ui({
+            container: "links",
+            width: 320,
+            height: 600,
+            rows: [
+                {
+                    height: 35,
+                    view: "template",
+                    type: "header",
+                    template: "Ссылки на статьи"
+
+                },
+                {
+                    view: "list",
+                    id: "list",
+                    template: "<a href=\"#href#\">#title#</a> <div style='padding-left:18px'>#tags#</div>",
+                    type: {
+                        height: 90
+                    },
+                    url: '/links.json'
+                }
+            ]
+        });
+
+        //Posts
+        webix.ui({
+            container: "posts",
+            width: 320,
+            height: 600,
+            rows: [
+                {
+                    height: 35,
+                    view: "template",
+                    type: "header",
+                    template: "Посты"
+
+                },
+                {
+                    view: "list",
+                    id: "list",
+                    template: "<a href=\"#href#\">#title#</a> <div style='padding-left:18px'>#preview#</div>",
+                    type: {
+                        height: 200
+                    },
+                    url: '/json/posts.json'
+                }
+            ]
+        });
+
+        //Posts
+        webix.ui({
+            container: "blogs",
+            width: 320,
+            height: 600,
+            rows: [
+                {
+                    height: 35,
+                    view: "template",
+                    type: "header",
+                    template: "Блоги"
+
+                },
+                {
+                    view: "list",
+                    id: "list",
+                    template: "<a href=\"#href#\">#title#</a> <div style='padding-left:18px'>#tags#</div>",
+                    type: {
+                        height: 90
+                    },
+                    url: '/json/blogs.json'
+                }
+            ]
+        });
